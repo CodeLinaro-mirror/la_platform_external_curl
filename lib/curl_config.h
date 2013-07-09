@@ -5,7 +5,7 @@
 /* #undef BUILDING_LIBCURL */
 
 /* Location of default ca bundle */
-/* #undef CURL_CA_BUNDLE */
+#define CURL_CA_BUNDLE "/etc/ssl/certs/ca-certificates.crt"
 
 /* Location of default ca path */
 /* #undef CURL_CA_PATH */
@@ -414,7 +414,7 @@
 /* #undef HAVE_LIBSSH2_VERSION */
 
 /* Define to 1 if you have the `ssl' library (-lssl). */
-/* #undef HAVE_LIBSSL */
+#define HAVE_LIBSSL 1
 
 /* if zlib is available */
 /* #undef HAVE_LIBZ */
@@ -466,28 +466,28 @@
 /* #undef HAVE_OLD_GSSMIT */
 
 /* Define to 1 if you have the <openssl/crypto.h> header file. */
-/* #undef HAVE_OPENSSL_CRYPTO_H */
+#define HAVE_OPENSSL_CRYPTO_H 1
 
 /* Define to 1 if you have the <openssl/engine.h> header file. */
-/* #undef HAVE_OPENSSL_ENGINE_H */
+//#define HAVE_OPENSSL_ENGINE_H 1
 
 /* Define to 1 if you have the <openssl/err.h> header file. */
-/* #undef HAVE_OPENSSL_ERR_H */
+#define HAVE_OPENSSL_ERR_H 1
 
 /* Define to 1 if you have the <openssl/pem.h> header file. */
-/* #undef HAVE_OPENSSL_PEM_H */
+#define HAVE_OPENSSL_PEM_H 1
 
 /* Define to 1 if you have the <openssl/pkcs12.h> header file. */
-/* #undef HAVE_OPENSSL_PKCS12_H */
+#define HAVE_OPENSSL_PKCS12_H 1
 
 /* Define to 1 if you have the <openssl/rsa.h> header file. */
-/* #undef HAVE_OPENSSL_RSA_H */
+#define HAVE_OPENSSL_RSA_H 1
 
 /* Define to 1 if you have the <openssl/ssl.h> header file. */
-/* #undef HAVE_OPENSSL_SSL_H */
+#define HAVE_OPENSSL_SSL_H 1
 
 /* Define to 1 if you have the <openssl/x509.h> header file. */
-/* #undef HAVE_OPENSSL_X509_H */
+#define HAVE_OPENSSL_X509_H 1
 
 /* Define to 1 if you have the <pem.h> header file. */
 /* #undef HAVE_PEM_H */
@@ -598,10 +598,10 @@
 /* #undef HAVE_SPNEGO */
 
 /* Define to 1 if you have the `SSL_get_shutdown' function. */
-/* #undef HAVE_SSL_GET_SHUTDOWN */
+#define HAVE_SSL_GET_SHUTDOWN 1
 
 /* Define to 1 if you have the <ssl.h> header file. */
-/* #undef HAVE_SSL_H */
+#define HAVE_SSL_H 1
 
 /* Define to 1 if you have the <stdbool.h> header file. */
 #define HAVE_STDBOOL_H 1
@@ -965,13 +965,13 @@
 /* #undef USE_OPENLDAP */
 
 /* if OpenSSL is in use */
-/* #undef USE_OPENSSL */
+#define USE_OPENSSL 1
 
 /* if PolarSSL is enabled */
 /* #undef USE_POLARSSL */
 
 /* if SSL is enabled */
-/* #undef USE_SSLEAY */
+#define USE_SSLEAY 1
 
 /* if you want POSIX threaded DNS lookup */
 /* #undef USE_THREADS_POSIX */

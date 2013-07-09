@@ -66,15 +66,17 @@ CURL_HEADERS := \
 	types.h
 
 LOCAL_SRC_FILES := $(addprefix lib/,$(CSOURCES))
-LOCAL_C_INCLUDES += $(LOCAL_PATH)/include/
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/include/ $(LOCAL_PATH)/../openssl/include
 LOCAL_CFLAGS += $(common_CFLAGS)
+LOCAL_LDLIBS := -lssl -lcrypto
+LOCAL_SHARED_LIBRARIES := libssl libcrypto
 
 LOCAL_COPY_HEADERS_TO := libcurl/curl
 LOCAL_COPY_HEADERS := $(addprefix include/curl/,$(CURL_HEADERS))
 
 LOCAL_MODULE:= libcurl
 
-LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_TAGS := optional eng debug
 
 # Copy the licence to a place where Android will find it.
 # Actually, this doesn't quite work because the build system searches
@@ -98,9 +100,9 @@ LOCAL_SRC_FILES := $(addprefix src/,$(CURL_CFILES))
 LOCAL_MODULE := curl
 LOCAL_MODULE_TAGS := optional
 LOCAL_SHARED_LIBRARIES := libcurl
-LOCAL_SYSTEM_SHARED_LIBRARIES := libc
+LOCAL_SYSTEM_SHARED_LIBRARIES := libc libssl
 
-LOCAL_C_INCLUDES += $(LOCAL_PATH)/include $(LOCAL_PATH)/lib
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/include $(LOCAL_PATH)/lib $(LOCAL_PATH)/../openssl/include
 
 # This may also need to include $(CURLX_ONES) in order to correctly link
 # if libcurl is changed to be built as a dynamic library
