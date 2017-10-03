@@ -102,6 +102,10 @@
 #define OPENSSL_NO_SSL2
 #endif
 
+#if defined(OPENSSL_IS_BORINGSSL)
+#define CONF_modules_free()
+#endif
+
 #if (OPENSSL_VERSION_NUMBER >= 0x10100000L) && /* OpenSSL 1.1.0+ */ \
   !defined(LIBRESSL_VERSION_NUMBER)
 #define SSLEAY_VERSION_NUMBER OPENSSL_VERSION_NUMBER
@@ -2145,6 +2149,10 @@ static CURLcode ossl_connect_step1(struct connectdata *conn, int sockindex)
   if(SSL_CONN_CONFIG(verifystatus))
     SSL_set_tlsext_status_type(connssl->handle, TLSEXT_STATUSTYPE_ocsp);
 #endif
+#ifdef OPENSSL_IS_BORINGSSL
+  if(SSL_CONN_CONFIG(verifystatus))
+    SSL_enable_ocsp_stapling(connssl->handle);
+#endif /* OPENSSL_IS_BORINGSSL */
 
   SSL_set_connect_state(connssl->handle);
 
@@ -3313,6 +3321,9 @@ void Curl_ossl_sha256sum(const unsigned char *tmp, /* input */
 
 bool Curl_ossl_cert_status_request(void)
 {
+#ifdef OPENSSL_IS_BORINGSSL
+  return TRUE;
+#endif
 #if (OPENSSL_VERSION_NUMBER >= 0x0090808fL) && !defined(OPENSSL_NO_TLSEXT) && \
     !defined(OPENSSL_NO_OCSP)
   return TRUE;
