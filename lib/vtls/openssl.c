@@ -48,6 +48,7 @@
 #include "vtls.h"
 #include "strcase.h"
 #include "hostcheck.h"
+#include "multiif.h"
 #include "curl_printf.h"
 #include <openssl/ssl.h>
 #include <openssl/rand.h>
@@ -1311,6 +1312,7 @@ static int Curl_ossl_shutdown(struct connectdata *conn, int sockindex)
   int err;
   bool done = FALSE;
 
+#ifndef CURL_DISABLE_FTP
   /* This has only been tested on the proftpd server, and the mod_tls code
      sends a close notify alert without waiting for a close notify alert in
      response. Thus we wait for a close notify alert from the server, but
@@ -1318,6 +1320,7 @@ static int Curl_ossl_shutdown(struct connectdata *conn, int sockindex)
 
   if(data->set.ftp_ccc == CURLFTPSSL_CCC_ACTIVE)
       (void)SSL_shutdown(BACKEND->handle);
+#endif
 
   if(BACKEND->handle) {
     buffsize = (int)sizeof(buf);
@@ -2925,6 +2928,9 @@ static CURLcode ossl_connect_step2(struct connectdata *conn, int sockindex)
       }
       else
         infof(data, "ALPN, server did not agree to a protocol\n");
+
+      Curl_multiuse_state(conn, conn->negnpn == CURL_HTTP_VERSION_2 ?
+                          BUNDLE_MULTIPLEX : BUNDLE_NO_MULTIUSE);
     }
 #endif
 
@@ -3231,11 +3237,6 @@ static CURLcode get_cert_chain(struct connectdata *conn,
 #endif
         break;
       }
-#if 0
-      case EVP_PKEY_EC: /* symbol not present in OpenSSL 0.9.6 */
-        /* left TODO */
-        break;
-#endif
       }
       EVP_PKEY_free(pubkey);
     }
@@ -3764,7 +3765,10 @@ static ssize_t ossl_recv(struct connectdata *conn, /* connection data */
 
     switch(err) {
     case SSL_ERROR_NONE: /* this is not an error */
+      break;
     case SSL_ERROR_ZERO_RETURN: /* no more data */
+      /* close_notify alert */
+      connclose(conn, "TLS close_notify");
       break;
     case SSL_ERROR_WANT_READ:
     case SSL_ERROR_WANT_WRITE:
@@ -3827,7 +3831,11 @@ static size_t Curl_ossl_version(char *buffer, size_t size)
       sub[0]='\0';
   }
 
-  return msnprintf(buffer, size, "%s/%lx.%lx.%lx%s",
+  return msnprintf(buffer, size, "%s/%lx.%lx.%lx%s"
+#ifdef OPENSSL_FIPS
+                   "-fips"
+#endif
+                   ,
                    OSSL_PACKAGE,
                    (ssleay_value>>28)&0xf,
                    (ssleay_value>>20)&0xff,
