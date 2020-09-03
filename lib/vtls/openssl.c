@@ -3127,7 +3127,7 @@ static CURLcode ossl_connect_step1(struct connectdata *conn, int sockindex)
 #endif
 #ifdef OPENSSL_IS_BORINGSSL
   if(SSL_CONN_CONFIG(verifystatus))
-    SSL_enable_ocsp_stapling(BACKEND->handle);
+    SSL_enable_ocsp_stapling(backend->handle);
 #endif /* OPENSSL_IS_BORINGSSL */
 
 #if defined(OPENSSL_IS_BORINGSSL) && defined(ALLOW_RENEG)
