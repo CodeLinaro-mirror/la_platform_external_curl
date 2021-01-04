@@ -34,6 +34,9 @@
 /* to disable FTP */
 #define CURL_DISABLE_FTP 1
 
+/* to disable curl_easy_options */
+/* #undef CURL_DISABLE_GETOPTIONS */
+
 /* to disable Gopher */
 #define CURL_DISABLE_GOPHER 1
 
@@ -57,6 +60,9 @@
 
 /* disable mime API */
 /* #undef CURL_DISABLE_MIME */
+
+/* to disable MQTT */
+/* #undef CURL_DISABLE_MQTT */
 
 /* disable netrc parsing */
 /* #undef CURL_DISABLE_NETRC */
@@ -88,6 +94,9 @@
 /* to disable SMTP */
 #define CURL_DISABLE_SMTP 1
 
+/* to disable socketpair support */
+/* #undef CURL_DISABLE_SOCKETPAIR */
+
 /* to disable TELNET */
 #define CURL_DISABLE_TELNET 1
 
@@ -96,9 +105,6 @@
 
 /* to disable verbose strings */
 /* #undef CURL_DISABLE_VERBOSE_STRINGS */
-
-/* to enable MQTT */
-/* #undef CURL_ENABLE_MQTT */
 
 /* Definition to make a library symbol externally visible. */
 #define CURL_EXTERN_SYMBOL __attribute__ ((__visibility__ ("default")))
@@ -435,6 +441,9 @@
 /* if zlib is available */
 #define HAVE_LIBZ 1
 
+/* Define to 1 if you have the `zstd' library (-lzstd). */
+/* #undef HAVE_LIBZSTD */
+
 /* Define to 1 if you have the <linux/tcp.h> header file. */
 #define HAVE_LINUX_TCP_H 1
 
@@ -631,8 +640,8 @@
 /* Define to 1 if you have the `SSLv2_client_method' function. */
 /* #undef HAVE_SSLV2_CLIENT_METHOD */
 
-/* Define to 1 if you have the `SSL_get_esni_status' function. */
-/* #undef HAVE_SSL_GET_ESNI_STATUS */
+/* Define to 1 if you have the `SSL_get_ech_status' function. */
+/* #undef HAVE_SSL_GET_ECH_STATUS */
 
 /* Define to 1 if you have the <ssl.h> header file. */
 /* #undef HAVE_SSL_H */
@@ -799,8 +808,8 @@
 /* Define to 1 if you have the `wolfSSLv3_client_method' function. */
 /* #undef HAVE_WOLFSSLV3_CLIENT_METHOD */
 
-/* if you have wolfSSL_DES_set_odd_parity */
-/* #undef HAVE_WOLFSSL_DES_SET_ODD_PARITY */
+/* if you have wolfSSL_DES_ecb_encrypt */
+/* #undef HAVE_WOLFSSL_DES_ECB_ENCRYPT */
 
 /* Define to 1 if you have the `wolfSSL_get_peer_certificate' function. */
 /* #undef HAVE_WOLFSSL_GET_PEER_CERTIFICATE */
@@ -822,6 +831,12 @@
 
 /* if you have the zlib.h header file */
 #define HAVE_ZLIB_H 1
+
+/* if libzstd is in use */
+/* #undef HAVE_ZSTD */
+
+/* Define to 1 if you have the <zstd.h> header file. */
+/* #undef HAVE_ZSTD_H */
 
 /* Define to the sub-directory where libtool stores uninstalled libraries. */
 #define LT_OBJDIR ".libs/"
@@ -952,8 +967,8 @@
 /* if BearSSL is enabled */
 /* #undef USE_BEARSSL */
 
-/* if ESNI support is available */
-/* #undef USE_ESNI */
+/* if ECH support is available */
+/* #undef USE_ECH */
 
 /* if GnuTLS is enabled */
 /* #undef USE_GNUTLS */
