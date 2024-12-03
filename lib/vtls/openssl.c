@@ -138,10 +138,6 @@
 #define HAVE_ERR_REMOVE_THREAD_STATE 1
 #endif
 
-#if defined(OPENSSL_IS_BORINGSSL)
-#define CONF_modules_free()
-#endif
-
 #if (OPENSSL_VERSION_NUMBER >= 0x10100000L) && /* OpenSSL 1.1.0+ */ \
     !(defined(LIBRESSL_VERSION_NUMBER) && \
       LIBRESSL_VERSION_NUMBER < 0x20700000L)
@@ -5317,9 +5313,6 @@ static CURLcode ossl_sha256sum(const unsigned char *tmp, /* input */
 
 static bool ossl_cert_status_request(void)
 {
-#ifdef OPENSSL_IS_BORINGSSL
-  return TRUE;
-#endif
 #if (OPENSSL_VERSION_NUMBER >= 0x0090808fL) && !defined(OPENSSL_NO_TLSEXT) && \
   !defined(OPENSSL_NO_OCSP)
   return TRUE;
